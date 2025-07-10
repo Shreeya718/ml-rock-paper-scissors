@@ -1,21 +1,32 @@
 import random
 
-def player(prev_play, opponent_history=[]):
+def player(prev_play, opponent_history=[], my_history=[], loss_streak=[0]):
     counters = {'R': 'P', 'P': 'S', 'S': 'R'}
-    
+
+    # Track plays
     if prev_play:
         opponent_history.append(prev_play)
 
-    # Start with random choices to gather data
-    if len(opponent_history) < 5:
-        return random.choice(['R', 'P', 'S'])
+    if len(my_history) < len(opponent_history):
+        last_opp = opponent_history[-1]
+        last_me = my_history[-1] if my_history else ''
+        if counters[last_me] == last_opp:
+            loss_streak[0] += 1
+        else:
+            loss_streak[0] = 0
 
-    # Cycle detection: check if opponent repeats every 2 moves
-    if len(opponent_history) >= 3 and opponent_history[-1] == opponent_history[-3]:
-        predicted = opponent_history[-2]
+    # Strategy switch if losing streak detected
+    if loss_streak[0] >= 5:
+        move = random.choice(['R', 'P', 'S'])  # Reset with random
+        loss_streak[0] = 0
+    elif len(opponent_history) >= 5:
+        recent = opponent_history[-5:]
+        predicted = max(set(recent), key=recent.count)
+        move = counters[predicted]
+    elif len(opponent_history) >= 3 and opponent_history[-1] == opponent_history[-3]:
+        move = counters[opponent_history[-2]]
     else:
-        # Frequency-based strategy
-        recent_moves = opponent_history[-5:]
-        predicted = max(set(recent_moves), key=recent_moves.count)
+        move = random.choice(['R', 'P', 'S'])
 
-    return counters[predicted]
+    my_history.append(move)
+    return move
