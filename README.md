@@ -1,3 +1,12 @@
-# Rock Paper Scissors
+# 🤖 Rock Paper Scissors ML Bot
 
-This is the boilerplate for the Rock Paper Scissors project. Instructions for building your project can be found at https://www.freecodecamp.org/learn/machine-learning-with-python/machine-learning-with-python-projects/rock-paper-scissors
+This bot uses dynamic prediction and strategy switching to defeat four different opponents in a coding challenge from freeCodeCamp’s Machine Learning with Python certification.
+
+### 🧠 Features
+- Learns from opponent behavior using recent move patterns
+- Switches strategy if losing streak detected
+- Achieves 60%+ win rate against Quincy and Mrugesh
+
+### 🚀 Run Locally
+```bash
+python main.py
